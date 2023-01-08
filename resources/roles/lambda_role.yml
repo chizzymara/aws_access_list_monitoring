@@ -1,0 +1,45 @@
+Resources:
+  AwsAccessListMonitoringLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /service-role/AwsAccessListMonitoringLambdaRole/
+      RoleName: AwsAccessListMonitoringLambdaRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: AwsAccessListMonitoringtLambdaPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: logs:CreateLogGroup
+                Resource: !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*
+              - Effect: Allow
+                Action: 
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/aws_access_list_monitoring:*
+              - Effect: Allow
+                Action: 
+                  - iam:ListPolicies
+                  - iam:GenerateCredentialReport
+                  - ses:SendEmail
+                  - iam:ListGroupPolicies
+                  - ses:SendRawEmail
+                  - iam:GetAccessKeyLastUsed
+                  - iam:ListUsers
+                  - iam:ListUserPolicies
+                  - iam:ListGroups
+                  - iam:GetCredentialReport
+                  - iam:ListUserTags
+                  - iam:ListAccessKeys
+                  - iam:ListGroupsForUser
+                  - iam:ListAttachedUserPolicies
+                  - iam:ListAttachedGroupPolicies
+                Resource: "*"
